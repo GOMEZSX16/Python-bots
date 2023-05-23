@@ -82,6 +82,8 @@ while True:
     kill_zone_prices = df_kill_zone[(df_kill_zone['time'].dt.time >= kill_zone_start) & (df_kill_zone['time'].dt.time <= kill_zone_end)]['close']
     kill_zone_high = kill_zone_prices.max()
     kill_zone_low = kill_zone_prices.min()
+    print(f"Valor máximo de la Kill Zone: {kill_zone_high}")
+    print(f"Valor mínimo de la Kill Zone: {kill_zone_low}")
 
     # Calcular los niveles de stop loss y take profit
     stop_loss = (kill_zone_high + kill_zone_low) / 2
@@ -94,10 +96,16 @@ while True:
     if current_price > kill_zone_high:
         # Colocar una orden de compra con el tamaño de posición y los niveles de toma de ganancia y stop loss calculados
         enviar_operaciones(symbol, mt5.ORDER_TYPE_BUY, take_profit, stop_loss, position_size)
+        print("El precio de cierre está por encima del máximo de la Kill Zone.")
+        print(f"Precio de cierre: {current_price}")
 
     # Comprobar si el precio actual rompió por debajo del mínimo de la Kill Zone
     elif current_price < kill_zone_low:
         # Colocar una orden de venta con el tamaño de posición y los niveles de toma de ganancia y stop loss calculados
         enviar_operaciones(symbol, mt5.ORDER_TYPE_SELL, take_profit, stop_loss, position_size)
+        print("El precio de cierre está por debajo del mínimo de la Kill Zone.")
+        print(f"Precio de cierre: {current_price}")
     
+
     time.sleep(300)
+
