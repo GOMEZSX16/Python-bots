@@ -58,13 +58,14 @@ def enviar_operaciones(simbolo,tipo_operacion, precio_tp,precio_sl,volumen_op):
     mt5.order_send(orden)
 
 
-symbol = 'US30.cash'
+symbol = 'US_30'
 timeframe = mt5.TIMEFRAME_M5
 
-# Variable para controlar si ya se ha enviado una orden en la Kill Zone actual
-orden_enviada = False
-
-def send_orders_based_on_breakout(symbol, timeframe):
+while True:
+   orden_enviada = False  # Variable para controlar si ya se ha enviado una orden en la Kill Zone actual
+   
+   def send_orders_based_on_breakout(symbol, timeframe):
+    
     if is_kill_zone():
         return  # No se realizan operaciones durante la Kill Zone
 
@@ -98,3 +99,5 @@ def send_orders_based_on_breakout(symbol, timeframe):
     elif current_price < kill_zone_low:
         # Colocar una orden de venta con el tamaño de posición y los niveles de toma de ganancia y stop loss calculados
         enviar_operaciones(symbol, mt5.ORDER_TYPE_SELL, take_profit, stop_loss, position_size)
+    
+    time.sleep(300)
