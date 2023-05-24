@@ -2,6 +2,7 @@ import pandas as pd
 import MetaTrader5 as mt5
 import datetime
 import pytz 
+import time
 
 
 nombre = 1051644390
